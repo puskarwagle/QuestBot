@@ -2,12 +2,9 @@
     <div class="gap-5">
         <livewire:personal-info-cunt /> 
         <livewire:question-info-cunt /> 
-
-        {{-- @include('personal-info.index', ['personalInfo' => $personalInfo]) --}}
-        {{-- @include('partials.Questions')
-        @include('partials.Settings')
-        @include('partials.Secrets')
-        @include('partials.SearchPref') --}}
+        <livewire:search-info-cunt />
+        <livewire:secret-info-cunt />
+        <livewire:bot-config-cunt />
     </div>
     
     <div class="container mx-auto p-8 max-w-4xl">
