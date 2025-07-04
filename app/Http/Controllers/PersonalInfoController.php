@@ -10,20 +10,32 @@ class PersonalInfoController extends Controller
 {
     public function index()
     {
-        $info = PersonalInfo::where('user_id', Auth::id())->first();
-        return view('personal-info.index', compact('info'));
+        $userId = Auth::id();
+        // dd([
+        //     'auth_id' => Auth::id(),
+        //     'auth_user' => Auth::user(),
+        //     'personalInfo_query' => PersonalInfo::where('user_id', Auth::id())->toSql(),
+        //     'personalInfo_result' => PersonalInfo::where('user_id', Auth::id())->first(),
+        //     'db_all' => PersonalInfo::all(),
+        // ]);
+
+        $personalInfo = PersonalInfo::where('user_id', Auth::id())->first();
+        return view('personal-info.index', compact('personalInfo'));
     }
 
     public function store(Request $request)
     {
+        // dd('Store method hit', $request->all());
         $data = $this->validateData($request);
-
+        $userId = Auth::id();
+        $data['user_id'] = $userId;
+        
         PersonalInfo::updateOrCreate(
-            ['user_id' => Auth::id()],
+            ['user_id' => $userId],
             $data
         );
-
-        return response()->json(['message' => 'Personal Info updated']);
+        
+        return redirect()->route('personal-info.index')->with('success', 'Personal Info updated');
     }
 
     protected function validateData(Request $request): array

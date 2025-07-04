@@ -11,8 +11,11 @@ Route::view('dashboard', 'dashboard')
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
-
-Route::get('/personal-info', [PersonalInfoController::class, 'index']);
-Route::post('/personal-info', [PersonalInfoController::class, 'store']);
+    
+use App\Http\Controllers\PersonalInfoController;
+Route::middleware(['auth'])->group(function () {
+    Route::get('/personal-info', [PersonalInfoController::class, 'index'])->name('personal-info.index');
+    Route::post('/personal-info', [PersonalInfoController::class, 'store'])->name('personal-info.store');
+});
 
 require __DIR__.'/auth.php';

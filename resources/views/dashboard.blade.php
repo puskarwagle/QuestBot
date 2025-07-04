@@ -1,10 +1,13 @@
 <x-app-layout>
     <div class="gap-5">
-        @include('partials.Personals')
-        @include('partials.Questions')
+        <livewire:personal-info-cunt /> 
+        <livewire:question-info-cunt /> 
+
+        {{-- @include('personal-info.index', ['personalInfo' => $personalInfo]) --}}
+        {{-- @include('partials.Questions')
         @include('partials.Settings')
         @include('partials.Secrets')
-        @include('partials.SearchPref')
+        @include('partials.SearchPref') --}}
     </div>
     
     <div class="container mx-auto p-8 max-w-4xl">
