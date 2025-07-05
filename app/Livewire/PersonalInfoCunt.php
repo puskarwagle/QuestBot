@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use App\Models\PersonalInfo;
+use Illuminate\Support\Facades\Http;
 
 class PersonalInfoCunt extends Component
 {
@@ -47,21 +48,41 @@ class PersonalInfoCunt extends Component
         }
     }
 
-    public function save()
-    {
-        $validatedData = $this->validate();
-        $validatedData['user_id'] = Auth::id();
+public function save()
+{
+    $validatedData = $this->validate();
+    $validatedData['user_id'] = Auth::id();
 
-        $isUpdate = PersonalInfo::where('user_id', Auth::id())->exists();
-        
-        PersonalInfo::updateOrCreate(
-            ['user_id' => Auth::id()],
-            $validatedData
-        );
+    $isUpdate = PersonalInfo::where('user_id', Auth::id())->exists();
 
-        $message = $isUpdate ? 'Personal Info updated' : 'Personal Info created';
-        session()->flash('success', $message);
+    PersonalInfo::updateOrCreate(
+        ['user_id' => Auth::id()],
+        $validatedData
+    );
+
+    // Send to external server
+    $this->sendToServer($validatedData);
+
+    $message = $isUpdate ? 'Personal Info updated' : 'Personal Info created';
+    session()->flash('success', $message);
+}
+
+private function sendToServer($data)
+{
+    try {
+        $response = Http::timeout(10)->post('http://localhost:8001/api/update-personals', $data);
+
+        if ($response->successful()) {
+            session()->flash('server_success', '✅ Server updated successfully!');
+        } else {
+            $errorMsg = $response->json('detail') ?? 'Unknown server error';
+            session()->flash('server_error', '❌ Server error: ' . $errorMsg);
+        }
+    } catch (\Exception $e) {
+        session()->flash('server_error', '❌ Network error: ' . $e->getMessage());
     }
+}
+
 
     public function PersonalInfoExists()
     {

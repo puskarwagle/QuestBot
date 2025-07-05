@@ -166,5 +166,16 @@
             ✅ {{ session('success') }}
         </div>
         @endif
+        @if (session()->has('server_success'))
+        <div class="mt-4 p-3 rounded bg-green-700 text-white">
+            {{ session('server_success') }}
+        </div>
+        @endif
+
+        @if (session()->has('server_error'))
+        <div class="mt-4 p-3 rounded bg-red-700 text-white">
+            {{ session('server_error') }}
+        </div>
+        @endif
     </div>
 </div>

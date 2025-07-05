@@ -1,11 +1,11 @@
 <x-app-layout>
-    <div class="gap-5">
+    {{-- <div class="gap-5">
         <livewire:personal-info-cunt /> 
         <livewire:question-info-cunt /> 
         <livewire:search-info-cunt />
         <livewire:secret-info-cunt />
         <livewire:bot-config-cunt />
-    </div>
+    </div> --}}
     
     <div class="container mx-auto p-8 max-w-4xl">
         <div class="mb-8">

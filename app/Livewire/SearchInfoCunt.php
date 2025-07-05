@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use App\Models\SearchInfo;
+use Illuminate\Support\Facades\Http;
 
 class SearchInfoCunt extends Component
 {
@@ -64,18 +65,38 @@ class SearchInfoCunt extends Component
         }
     }
 
-    public function save()
-    {
-        $validatedData = $this->validate();
-        $validatedData['user_id'] = Auth::id();
+public function save()
+{
+    $validatedData = $this->validate();
+    $validatedData['user_id'] = Auth::id();
 
-        SearchInfo::updateOrCreate(
-            ['user_id' => Auth::id()],
-            $validatedData
-        );
+    SearchInfo::updateOrCreate(
+        ['user_id' => Auth::id()],
+        $validatedData
+    );
 
-        session()->flash('success', 'Search Info saved');
+    // Send to external server
+    $this->sendToServer($validatedData);
+
+    session()->flash('success', 'Search Info saved');
+}
+
+private function sendToServer($data)
+{
+    try {
+        $response = Http::timeout(10)->post('http://localhost:8001/api/update-search', $data);
+
+        if ($response->successful()) {
+            session()->flash('server_success', '✅ Server updated successfully!');
+        } else {
+            $errorMsg = $response->json('detail') ?? 'Unknown server error';
+            session()->flash('server_error', '❌ Server error: ' . $errorMsg);
+        }
+    } catch (\Exception $e) {
+        session()->flash('server_error', '❌ Network error: ' . $e->getMessage());
     }
+}
+
 
     public function searchInfoExists()
     {

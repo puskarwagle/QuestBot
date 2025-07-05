@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use App\Models\BotConfig;
+use Illuminate\Support\Facades\Http;
 
 class BotConfigCunt extends Component
 {
@@ -70,35 +71,36 @@ class BotConfigCunt extends Component
     }
 
     public function save()
-{
-    $validatedData = $this->validate();
-    $validatedData['user_id'] = Auth::id();
+    {
+        $validatedData = $this->validate();
+        $validatedData['user_id'] = Auth::id();
 
-    BotConfig::updateOrCreate(
-        ['user_id' => Auth::id()],
-        $validatedData
-    );
+        BotConfig::updateOrCreate(
+            ['user_id' => Auth::id()],
+            $validatedData
+        );
 
-    // Send to external server
-    $this->sendToServer($validatedData);
+        // Send to external server
+        $this->sendToServer($validatedData);
 
-    session()->flash('success', 'Bot Config saved');
-}
-
-private function sendToServer($data)
-{
-    try {
-        $response = Http::post('http://localhost:8001/api/update-bot-config', $data);
-        
-        if ($response->successful()) {
-            session()->flash('server_success', '✅ Server updated successfully!');
-        } else {
-            session()->flash('server_error', '❌ Server error: ' . $response->json()['detail']);
-        }
-    } catch (\Exception $e) {
-        session()->flash('server_error', '❌ Network error: ' . $e->getMessage());
+        session()->flash('success', 'Bot Config saved');
     }
-}
+
+    private function sendToServer($data)
+    {
+        try {
+            $response = Http::timeout(10)->post('http://localhost:8001/api/update-bot-config', $data);
+            
+            if ($response->successful()) {
+                session()->flash('server_success', '✅ Server updated successfully!');
+            } else {
+                $errorMsg = $response->json('detail') ?? 'Unknown server error';
+                session()->flash('server_error', '❌ Server error: ' . $errorMsg);
+            }
+        } catch (\Exception $e) {
+            session()->flash('server_error', '❌ Network error: ' . $e->getMessage());
+        }
+    }
 
     public function botConfigExists()
     {

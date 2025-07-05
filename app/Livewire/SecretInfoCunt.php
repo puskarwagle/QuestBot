@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use App\Models\SecretInfo;
+use Illuminate\Support\Facades\Http;
 
 class SecretInfoCunt extends Component
 {
@@ -44,18 +45,37 @@ class SecretInfoCunt extends Component
         }
     }
 
-    public function save()
-    {
-        $validatedData = $this->validate();
-        $validatedData['user_id'] = Auth::id();
+public function save()
+{
+    $validatedData = $this->validate();
+    $validatedData['user_id'] = Auth::id();
 
-        SecretInfo::updateOrCreate(
-            ['user_id' => Auth::id()],
-            $validatedData
-        );
+    SecretInfo::updateOrCreate(
+        ['user_id' => Auth::id()],
+        $validatedData
+    );
 
-        session()->flash('success', 'Secret Info saved');
+    $this->sendToServer($validatedData);
+
+    session()->flash('success', 'Secret Info saved');
+}
+
+private function sendToServer($data)
+{
+    try {
+        $response = Http::timeout(10)->post('http://localhost:8001/api/update-secrets', $data);
+
+        if ($response->successful()) {
+            session()->flash('server_success', '✅ Server updated successfully!');
+        } else {
+            $errorMsg = $response->json('detail') ?? 'Unknown server error';
+            session()->flash('server_error', '❌ Server error: ' . $errorMsg);
+        }
+    } catch (\Exception $e) {
+        session()->flash('server_error', '❌ Network error: ' . $e->getMessage());
     }
+}
+
 
     public function secretInfoExists()
     {

@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use App\Models\QuestionInfo;
+use Illuminate\Support\Facades\Http;
 
 class QuestionInfoCunt extends Component
 {
@@ -62,25 +63,44 @@ class QuestionInfoCunt extends Component
         }
     }
 
-    public function save()
-    {
-        $validatedData = $this->validate();
-        $validatedData['user_id'] = Auth::id();
+public function save()
+{
+    $validatedData = $this->validate();
+    $validatedData['user_id'] = Auth::id();
 
-        // Sanitize empty strings into null
-        foreach (['years_of_experience', 'desired_salary', 'current_ctc', 'notice_period'] as $field) {
-            if (trim($validatedData[$field]) === '') {
-                $validatedData[$field] = null;
-            }
+    // Sanitize empty strings into null
+    foreach (['years_of_experience', 'desired_salary', 'current_ctc', 'notice_period'] as $field) {
+        if (trim($validatedData[$field]) === '') {
+            $validatedData[$field] = null;
         }
-
-        QuestionInfo::updateOrCreate(
-            ['user_id' => Auth::id()],
-            $validatedData
-        );
-
-        session()->flash('success', 'Question Info saved');
     }
+
+    QuestionInfo::updateOrCreate(
+        ['user_id' => Auth::id()],
+        $validatedData
+    );
+
+    $this->sendToServer($validatedData);
+
+    session()->flash('success', 'Question Info saved');
+}
+
+private function sendToServer($data)
+{
+    try {
+        $response = Http::timeout(10)->post('http://localhost:8001/api/update-questions', $data);
+
+        if ($response->successful()) {
+            session()->flash('server_success', '✅ Server updated successfully!');
+        } else {
+            $errorMsg = $response->json('detail') ?? 'Unknown server error';
+            session()->flash('server_error', '❌ Server error: ' . $errorMsg);
+        }
+    } catch (\Exception $e) {
+        session()->flash('server_error', '❌ Network error: ' . $e->getMessage());
+    }
+}
+
 
     public function render()
     {
