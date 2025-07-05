@@ -18,6 +18,7 @@ Route::middleware(['auth'])->group(function () {
    Route::get('/bot-config', App\Livewire\BotConfigCunt::class)->name('bot-config');
    Route::get('/question-info', App\Livewire\QuestionInfoCunt::class)->name('question-info');
    Route::get('/search-info', App\Livewire\SearchInfoCunt::class)->name('search-info');
+   Route::view('/run-python', 'partials.runPython')->name('run-python');
 });
 
 require __DIR__.'/auth.php';

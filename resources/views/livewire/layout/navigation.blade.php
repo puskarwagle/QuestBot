@@ -53,6 +53,10 @@ new class extends Component
                         {{ __('Search Info') }}
                     </x-nav-link>
 
+                    <x-nav-link :href="route('run-python')" :active="request()->routeIs('run-python')" wire:navigate>
+                        {{ __('Run The Bot') }}
+                    </x-nav-link>
+
                 </div>
             </div>
 
