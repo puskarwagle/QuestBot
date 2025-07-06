@@ -13,11 +13,6 @@ return [
     | a conventional file to locate the various service credentials.
     |
     */
-    
-    'fastapi' => [
-        'base_url' => env('FASTAPI_BASE_URL', 'http://localhost:8001'),
-        'api_key' => env('FASTAPI_API_KEY'),
-    ],
 
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
