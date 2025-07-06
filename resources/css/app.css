@@ -6,6 +6,9 @@
 @source '../../vendor/livewire/flux-pro/stubs/**/*.blade.php';
 @source '../../vendor/livewire/flux/stubs/**/*.blade.php';
 
+@plugin "daisyui" {
+  themes: all;
+}
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {

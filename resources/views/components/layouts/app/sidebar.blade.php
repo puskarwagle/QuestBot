@@ -16,18 +16,35 @@
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
+            <flux:navlist.group :heading="__('Bot Management')" class="grid">
+                <flux:navlist.item icon="user" :href="route('personal-info')" :current="request()->routeIs('personal-info')" wire:navigate>
+                    {{ __('Personal Info') }}
+                </flux:navlist.item>
+
+                <flux:navlist.item icon="lock" :href="route('secret-info')" :current="request()->routeIs('secret-info')" wire:navigate>
+                    {{ __('Secret Info') }}
+                </flux:navlist.item>
+
+                <flux:navlist.item icon="settings" :href="route('bot-config')" :current="request()->routeIs('bot-config')" wire:navigate>
+                    {{ __('Bot Config') }}
+                </flux:navlist.item>
+
+                <flux:navlist.item icon="info" :href="route('question-info')" :current="request()->routeIs('question-info')" wire:navigate>
+                    {{ __('Question Info') }}
+                </flux:navlist.item>
+
+                <flux:navlist.item icon="search" :href="route('search-info')" :current="request()->routeIs('search-info')" wire:navigate>
+                    {{ __('Search Info') }}
+                </flux:navlist.item>
+
+                <flux:navlist.item icon="bot" :href="route('run-python')" :current="request()->routeIs('run-python')" wire:navigate>
+                    {{ __('Run The Bot') }}
+                </flux:navlist.item>
+            </flux:navlist.group>
 
             <flux:spacer />
 
-            <flux:navlist variant="outline">
-                <flux:navlist.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
-                {{ __('Repository') }}
-                </flux:navlist.item>
-
-                <flux:navlist.item icon="book-open-text" href="https://laravel.com/docs/starter-kits#livewire" target="_blank">
-                {{ __('Documentation') }}
-                </flux:navlist.item>
-            </flux:navlist>
+            
 
             <!-- Desktop User Menu -->
             <flux:dropdown class="hidden lg:block" position="bottom" align="start">
