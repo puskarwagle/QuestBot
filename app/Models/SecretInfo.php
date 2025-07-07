@@ -8,8 +8,8 @@ class SecretInfo extends Model
 {
     protected $fillable = [
         'user_id',
-        'username',
-        'password',
+        'linkedin_username',
+        'linkedin_password',
         'use_AI',
         'ai_provider',
         'deepseek_api_url',

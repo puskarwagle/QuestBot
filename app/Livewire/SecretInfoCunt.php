@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Http;
 
 class SecretInfoCunt extends Component
 {
-    public $username = '';
-    public $password = '';
+    public $linkedin_username = '';
+    public $linkedin_password = '';
     public $use_AI = false;
     public $ai_provider = '';
     public $deepseek_api_url = '';
@@ -23,8 +23,8 @@ class SecretInfoCunt extends Component
     public $stream_output = false;
 
     protected $rules = [
-        'username' => 'nullable|string',
-        'password' => 'nullable|string',
+        'linkedin_username' => 'nullable|string',
+        'linkedin_password' => 'nullable|string',
         'use_AI' => 'boolean',
         'ai_provider' => 'nullable|string',
         'deepseek_api_url' => 'nullable|string',

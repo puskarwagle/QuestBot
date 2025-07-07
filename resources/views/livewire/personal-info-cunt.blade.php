@@ -156,7 +156,7 @@
                         </label>
                         <select wire:model="gender" class="select select-bordered w-full">
                             <option value="">-- Select --</option>
-                            @foreach (['Male','Female','Other','Decline'] as $option)
+                            @foreach (['Female','Male','Other','Decline'] as $option)
                             <option value="{{ $option }}">{{ $option }}</option>
                             @endforeach
                         </select>
