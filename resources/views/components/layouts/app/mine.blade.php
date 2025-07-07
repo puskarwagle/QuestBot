@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="light">
+<html data-theme="dark">
 <head>
     @include('partials.head')
 </head>
@@ -13,60 +13,61 @@
                     </svg>
                 </button>
                 <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[100] p-2 bg-base-200 shadow w-64 text-base">
-                    <li class="menu-title text-sm font-bold uppercase tracking-wide">
+                    {{-- <li class="menu-title text-sm font-bold uppercase tracking-wide">
                         <span>Platform</span>
                     </li>
                     <li>
-                        <a href="{{ route('dashboard') }}" class="flex items-center gap-3 {{ request()->routeIs('dashboard') ? 'active font-semibold' : '' }}">
+                        <a href="{{ route('dashboard') }}" class="flex items-center gap-3 {{ request()->routeIs('dashboard') ? 'active font-semibold' : '' }}" wire:navigate>
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0h6" />
                             </svg>
                             <span>{{ __('Dashboard') }}</span>
                         </a>
-                    </li>
+                    </li> --}}
 
                     <li class="menu-title text-sm font-bold uppercase tracking-wide mt-2">
-                        <span>Bot Management</span>
+                        <span>My Details</span>
                     </li>
                     <li>
-                        <a href="{{ route('personal-info') }}" class="flex items-center gap-3 {{ request()->routeIs('personal-info') ? 'active font-semibold' : '' }}">
+                        <a href="{{ route('personal-info') }}" class="flex items-center gap-3 {{ request()->routeIs('personal-info') ? 'active font-semibold' : '' }}" wire:navigate>
                             <span class="text-lg">👤</span>
                             <span>{{ __('Personal Info') }}</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('secret-info') }}" class="flex items-center gap-3 {{ request()->routeIs('secret-info') ? 'active font-semibold' : '' }}">
+                        <a href="{{ route('secret-info') }}" class="flex items-center gap-3 {{ request()->routeIs('secret-info') ? 'active font-semibold' : '' }}" wire:navigate>
                             <span class="text-lg">🔐</span>
                             <span>{{ __('Secret Info') }}</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('bot-config') }}" class="flex items-center gap-3 {{ request()->routeIs('bot-config') ? 'active font-semibold' : '' }}">
+                        <a href="{{ route('bot-config') }}" class="flex items-center gap-3 {{ request()->routeIs('bot-config') ? 'active font-semibold' : '' }}" wire:navigate>
                             <span class="text-lg">⚙️</span>
                             <span>{{ __('Bot Config') }}</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('question-info') }}" class="flex items-center gap-3 {{ request()->routeIs('question-info') ? 'active font-semibold' : '' }}">
+                        <a href="{{ route('question-info') }}" class="flex items-center gap-3 {{ request()->routeIs('question-info') ? 'active font-semibold' : '' }}" wire:navigate>
                             <span class="text-lg">ℹ️</span>
                             <span>{{ __('Question Info') }}</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('search-info') }}" class="flex items-center gap-3 {{ request()->routeIs('search-info') ? 'active font-semibold' : '' }}">
+                        <a href="{{ route('search-info') }}" class="flex items-center gap-3 {{ request()->routeIs('search-info') ? 'active font-semibold' : '' }}" wire:navigate>
                             <span class="text-lg">🔍</span>
                             <span>{{ __('Search Info') }}</span>
                         </a>
                     </li>
+                    <li class="menu-title text-sm font-bold uppercase tracking-wide mt-2">
+                        <span>Bot Management</span>
+                    </li>
                     <li>
-                        <a href="{{ route('run-python') }}" class="flex items-center gap-3 {{ request()->routeIs('run-python') ? 'active font-semibold' : '' }}">
+                        <a href="{{ route('run-python') }}" class="flex items-center gap-3 {{ request()->routeIs('run-python') ? 'active font-semibold' : '' }}" wire:navigate>
                             <span class="text-lg">🤖</span>
                             <span>{{ __('Run The Bot') }}</span>
                         </a>
                     </li>
                 </ul>
-
-
             </div>
             <a class="btn btn-ghost text-xl" href="{{ route('dashboard') }}">QuestBot</a>
         </div>
@@ -87,16 +88,26 @@
                     </svg>
                 </button>
                 <ul tabindex="0" class="dropdown-content z-[100] mt-2 w-52 p-2 bg-base-200 shadow-2xl rounded-box">
-                    @foreach (['default', 'dark', 'business', 'retro', 'aqua'] as $theme)
-                    <li>
-                        <input type="radio" name="theme-dropdown" value="{{ $theme }}" aria-label="{{ ucfirst($theme) }}" class="theme-controller w-full btn btn-sm btn-block btn-ghost justify-start" />
+                    <li data-theme="light">
+                        <input type="radio" name="theme-dropdown" value="Light" aria-label="light" class="theme-controller w-full btn btn-sm btn-ghost justify-start" />
                     </li>
-                    @endforeach
+                    <li data-theme="dark">
+                        <input type="radio" name="theme-dropdown" value="dark" aria-label="Dark" class="theme-controller w-full btn btn-sm btn-ghost justify-start" />
+                    </li>
+                    <li data-theme="luxury">
+                        <input type="radio" name="theme-dropdown" value="luxury" aria-label="Luxury" class="theme-controller w-full btn btn-sm btn-ghost justify-start" />
+                    </li>
+                    <li data-theme="valentine">
+                        <input type="radio" name="theme-dropdown" value="valentine" aria-label="Valentine" class="theme-controller w-full btn btn-sm btn-ghost justify-start" />
+                    </li>
+                    <li data-theme="cyberpunk">
+                        <input type="radio" name="theme-dropdown" value="cyberpunk" aria-label="Cyberpunk" class="theme-controller w-full btn btn-sm btn-ghost justify-start" />
+                    </li>
                 </ul>
             </div>
 
             <!-- Search Input -->
-            <input type="text" placeholder="Search" class="input input-bordered w-24 md:w-auto" />
+            {{-- <input type="text" placeholder="Search" class="input input-bordered w-24 md:w-auto" /> --}}
 
             <!-- Profile Dropdown -->
             <div class="dropdown dropdown-end">
@@ -146,5 +157,6 @@
         {{ $slot }}
     </div>
     @fluxScripts
+    @livewireScripts
 </body>
 </html>
