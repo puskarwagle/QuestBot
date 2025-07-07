@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-layouts.app>
     <div class="bg-base-200 min-h-screen flex items-center justify-center p-4">
         <div class="card bg-base-100 shadow-2xl w-full max-w-md">
             <div class="card-body">
@@ -89,4 +89,4 @@
 
         </script>
     </div>
-</x-app-layout>
+</x-layouts.app>
