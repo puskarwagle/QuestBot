@@ -51,8 +51,6 @@
                     If you fill this in, the app will automatically log into your LinkedIn and apply for jobs.  
                     If you leave it empty, you can always manually type your LinkedIn username and password every time you run this app. :)
                     </span>
-
-
                 </div>
             </div>
 

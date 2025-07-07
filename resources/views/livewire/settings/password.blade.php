@@ -41,38 +41,40 @@ new class extends Component {
     @include('partials.settings-heading')
 
     <x-settings.layout :heading="__('Update password')" :subheading="__('Ensure your account is using a long, random password to stay secure')">
-        <form wire:submit="updatePassword" class="mt-6 space-y-6">
-            <flux:input
-                wire:model="current_password"
-                :label="__('Current password')"
-                type="password"
-                required
-                autocomplete="current-password"
-            />
-            <flux:input
-                wire:model="password"
-                :label="__('New password')"
-                type="password"
-                required
-                autocomplete="new-password"
-            />
-            <flux:input
-                wire:model="password_confirmation"
-                :label="__('Confirm Password')"
-                type="password"
-                required
-                autocomplete="new-password"
-            />
+        <form wire:submit.prevent="updatePassword" class="mt-6 space-y-6">
+            <fieldset class="fieldset bg-base-200 border-base-300 rounded-box border p-6 space-y-4">
+                <legend class="fieldset-legend text-lg font-semibold">{{ __('Update Password') }}</legend>
 
-            <div class="flex items-center gap-4">
-                <div class="flex items-center justify-end">
-                    <flux:button variant="primary" type="submit" class="w-full">{{ __('Save') }}</flux:button>
+                <!-- Current Password -->
+                <div>
+                    <label class="label" for="current_password">{{ __('Current password') }}</label>
+                    <input wire:model="current_password" id="current_password" type="password" required autocomplete="current-password" class="input input-bordered w-full" placeholder="{{ __('Enter current password') }}" />
                 </div>
 
-                <x-action-message class="me-3" on="password-updated">
-                    {{ __('Saved.') }}
-                </x-action-message>
-            </div>
+                <!-- New Password -->
+                <div>
+                    <label class="label" for="password">{{ __('New password') }}</label>
+                    <input wire:model="password" id="password" type="password" required autocomplete="new-password" class="input input-bordered w-full" placeholder="{{ __('Enter new password') }}" />
+                </div>
+
+                <!-- Confirm Password -->
+                <div>
+                    <label class="label" for="password_confirmation">{{ __('Confirm password') }}</label>
+                    <input wire:model="password_confirmation" id="password_confirmation" type="password" required autocomplete="new-password" class="input input-bordered w-full" placeholder="{{ __('Confirm new password') }}" />
+                </div>
+
+                <!-- Actions -->
+                <div class="flex items-center gap-4 pt-4">
+                    <button type="submit" class="btn btn-primary w-full md:w-auto">
+                        {{ __('Save') }}
+                    </button>
+
+                    <x-action-message class="text-success font-medium" on="password-updated">
+                        {{ __('Saved.') }}
+                    </x-action-message>
+                </div>
+            </fieldset>
         </form>
+
     </x-settings.layout>
 </section>

@@ -1,62 +1,64 @@
 <div class="container mx-auto p-8 max-w-4xl">
-    <div class="mb-8">
-        <h1 class="text-3xl text-white font-bold mb-2">Job Applier WebSocket Test</h1>
-        <p class="text-pink-400">Laravel ↔ FastAPI Communication Test</p>
-    </div>
-
-    <!-- Connection Status -->
-    <div class="mb-6 p-4 rounded-lg border" id="status-panel">
-        <div class="flex items-center gap-2">
-            <div class="w-3 h-3 rounded-full" id="status-indicator"></div>
-            <span id="status-text" class="text-white">Disconnected</span>
-        </div>
-    </div>
-
-    <!-- Messages Container -->
-    <div class="mb-6">
-        <h2 class="text-xl text-white mb-4">Messages</h2>
-        <div id="messages" class="bg-black p-4 rounded-lg h-64 overflow-y-auto border border-pink-700 font-mono text-sm">
-            <div class="text-pink-500">Connecting to WebSocket...</div>
-        </div>
-    </div>
-
-    <!-- Controls -->
-    <div class="space-y-4">
-        <div class="flex gap-2">
-            <input type="text" id="messageInput" placeholder="Type a message..." class="flex-1 bg-gray-800 border border-pink-600 rounded px-3 py-2 text-green-400 focus:outline-none focus:border-green-500" onkeypress="if(event.key==='Enter') sendMessage()">
-            <button onclick="sendMessage()" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded transition-colors" id="sendBtn">
-                Send
-            </button>
+    <div class="p-6 space-y-8">
+        <!-- Header -->
+        <div>
+            <h1 class="text-3xl font-bold text-primary mb-1">QuestBot WebSocket Test</h1>
+            <p class="text-secondary">Laravel ↔ FastAPI Communication Test</p>
         </div>
 
-        <div class="flex gap-2">
-            <button onclick="sendQuickMessage('hello gui')" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition-colors">
-                Send "hello gui"
-            </button>
-            <button onclick="clearMessages()" class="bg-orange-600 hover:bg-red-700 px-4 py-2 rounded transition-colors">
-                Clear
-            </button>
-            <button onclick="toggleConnection()" class="bg-red-600 hover:bg-gray-700 px-4 py-2 rounded transition-colors" id="toggleBtn">
-                Disconnect
-            </button>
+        <!-- Connection Status -->
+        <div class="alert alert-info shadow-lg" id="status-panel">
+            <div class="flex items-center gap-3">
+                <span class="badge badge-xs badge-error" id="status-indicator"></span>
+                <span id="status-text" class="font-medium">Disconnected</span>
+            </div>
+        </div>
+
+        <!-- Messages -->
+        <div>
+            <h2 class="text-xl font-semibold text-primary mb-2">Messages</h2>
+            <div id="messages" class="bg-base-200 h-64 overflow-y-auto rounded-box p-4 space-y-2 text-sm font-mono border border-base-content/10">
+                <div class="text-secondary-content">Connecting to WebSocket...</div>
+            </div>
+        </div>
+
+        <!-- Input + Controls -->
+        <div class="space-y-4">
+            <div class="join w-full">
+                <input id="messageInput" type="text" placeholder="Type a message..." class="input input-bordered join-item w-full" onkeypress="if(event.key==='Enter') sendMessage()" />
+                <button onclick="sendMessage()" class="btn btn-success join-item" id="sendBtn">Send</button>
+            </div>
+
+            <div class="flex flex-wrap gap-2">
+                <button onclick="sendQuickMessage('hello gui')" class="btn btn-info">Send "hello gui"</button>
+                <button onclick="clearMessages()" class="btn btn-warning">Clear</button>
+                <button onclick="toggleConnection()" class="btn btn-error" id="toggleBtn">Disconnect</button>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+            <div class="stats shadow">
+                <div class="stat bg-base-200 rounded">
+                    <div class="stat-title text-secondary">Messages</div>
+                    <div class="stat-value text-primary" id="messageCount">0</div>
+                </div>
+            </div>
+            <div class="stats shadow">
+                <div class="stat bg-base-200 rounded">
+                    <div class="stat-title text-secondary">Connected</div>
+                    <div class="stat-value text-primary" id="connectionTime">0s</div>
+                </div>
+            </div>
+            <div class="stats shadow">
+                <div class="stat bg-base-200 rounded">
+                    <div class="stat-title text-secondary">Latency (ms)</div>
+                    <div class="stat-value text-primary" id="latency">--</div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Stats -->
-    <div class="mt-8 grid grid-cols-3 gap-4 text-center">
-        <div class="bg-gray-800 p-4 rounded">
-            <div class="text-2xl text-white font-bold" id="messageCount">0</div>
-            <div class="text-pink-400">Messages</div>
-        </div>
-        <div class="bg-gray-800 p-4 rounded">
-            <div class="text-2xl font-bold text-white" id="connectionTime">0s</div>
-            <div class="text-pink-400">Connected</div>
-        </div>
-        <div class="bg-gray-800 p-4 rounded">
-            <div class="text-2xl font-bold text-white" id="latency">--</div>
-            <div class="text-pink-400">Latency (ms)</div>
-        </div>
-    </div>
     <script>
         let ws = null;
         let messageCount = 0;
