@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="light">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,49 +14,76 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        .gradient-text { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero-gradient { background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%); }
-        .card-glow { box-shadow: 0 0 30px rgba(102, 126, 234, 0.1); }
-        .pulse-glow { animation: pulse-glow 2s ease-in-out infinite alternate; }
-        @keyframes pulse-glow { from { box-shadow: 0 0 20px rgba(102, 126, 234, 0.3); } to { box-shadow: 0 0 30px rgba(102, 126, 234, 0.6); } }
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+        }
+
+        .card-glow {
+            box-shadow: 0 0 30px rgba(102, 126, 234, 0.1);
+        }
+
+        .pulse-glow {
+            animation: pulse-glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulse-glow {
+            from {
+                box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+            }
+
+            to {
+                box-shadow: 0 0 30px rgba(102, 126, 234, 0.6);
+            }
+        }
+
     </style>
 </head>
 {{-- <body class="flex min-h-screen justify-center items-center"> --}}
 <body class="">
     <!-- Hero Section -->
     <section class="hero-gradient min-h-screen flex items-center relative overflow-hidden">
-        <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23667eea" fill-opacity="0.05"%3E%3Ccircle cx="30" cy="30" r="1"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
-        
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=" 60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" %3E%3Cg fill="none" fill-rule="evenodd" %3E%3Cg fill="%23667eea" fill-opacity="0.05" %3E%3Ccircle cx="30" cy="30" r="1" /%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
+
         <div class="container mx-auto px-4 relative z-10">
             <div class="text-center max-w-4xl mx-auto">
                 <div class="badge badge-outline badge-lg mb-6 animate-pulse">
                     🤖 AI-Powered Job Application Bot
                 </div>
-                
+
                 <h1 class="text-5xl md:text-7xl font-black mb-6 leading-tight">
                     Fuck Manual<br>
                     <span class="gradient-text">Job Applications</span>
                 </h1>
-                
+
                 <p class="text-xl md:text-2xl mb-8 opacity-90 font-medium">
-                    Stop wasting hours on LinkedIn. Let our AI bot apply to hundreds of jobs while you sleep, 
+                    Stop wasting hours on LinkedIn. Let our AI bot apply to hundreds of jobs while you sleep,
                     answer employer questions, and customize your resume for each position.
                 </p>
-                
+
                 <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
                     {{-- <button class="btn btn-primary btn-lg px-8 pulse-glow">
                         🚀 Start Auto-Applying Now
                     </button> --}}
                     <a href="/dashboard" class="btn btn-primary btn-lg px-8 pulse-glow" wire:navigate>
-    🚀 Start Auto-Applying Now
-</a>
+                        🚀 Start Auto-Applying Now
+                    </a>
 
                     <button class="btn btn-outline btn-lg px-8">
                         📊 See How It Works
                     </button>
                 </div>
-                
+
                 <div class="stats stats-horizontal bg-base-200/50 backdrop-blur-sm shadow-2xl">
                     <div class="stat place-items-center">
                         <div class="stat-title text-primary">Jobs Applied</div>
@@ -82,7 +109,7 @@
                 <h2 class="text-4xl md:text-5xl font-bold mb-12">
                     Job Hunting is <span class="text-error">Broken</span>
                 </h2>
-                
+
                 <div class="grid md:grid-cols-3 gap-8">
                     <div class="card bg-base-100 shadow-xl">
                         <div class="card-body text-center">
@@ -91,7 +118,7 @@
                             <p>Copy-paste the same info 50 times. Fill out forms that ask for your resume, then ask for everything that's already on your resume.</p>
                         </div>
                     </div>
-                    
+
                     <div class="card bg-base-100 shadow-xl">
                         <div class="card-body text-center">
                             <div class="text-4xl mb-4">⏰</div>
@@ -99,7 +126,7 @@
                             <p>Spend 10+ minutes per application. At 100 applications, that's 16+ hours of your life you'll never get back.</p>
                         </div>
                     </div>
-                    
+
                     <div class="card bg-base-100 shadow-xl">
                         <div class="card-body text-center">
                             <div class="text-4xl mb-4">🎯</div>
@@ -124,7 +151,7 @@
                         Stop being a human form-filling machine. Let AI handle the grunt work.
                     </p>
                 </div>
-                
+
                 <div class="grid md:grid-cols-2 gap-12 items-center">
                     <div class="space-y-8">
                         <div class="card bg-base-100 shadow-xl card-glow">
@@ -136,7 +163,7 @@
                                 <p>Bot applies to hundreds of jobs automatically. Filters by your criteria. Handles all the clicking and form-filling bullshit.</p>
                             </div>
                         </div>
-                        
+
                         <div class="card bg-base-100 shadow-xl card-glow">
                             <div class="card-body">
                                 <div class="flex items-center gap-4 mb-4">
@@ -146,7 +173,7 @@
                                 <p>AI reads employer questions and answers them intelligently. No more "Why do you want to work here?" torture.</p>
                             </div>
                         </div>
-                        
+
                         <div class="card bg-base-100 shadow-xl card-glow">
                             <div class="card-body">
                                 <div class="flex items-center gap-4 mb-4">
@@ -157,7 +184,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="mockup-browser bg-base-200 shadow-2xl">
                         <div class="mockup-browser-toolbar">
                             <div class="input">linkedin.com/jobs</div>
@@ -190,7 +217,7 @@
                 <h2 class="text-4xl md:text-5xl font-bold mb-16">
                     How It <span class="gradient-text">Works</span>
                 </h2>
-                
+
                 <div class="grid md:grid-cols-3 gap-8">
                     <div class="card bg-base-200 shadow-xl">
                         <div class="card-body text-center">
@@ -199,7 +226,7 @@
                             <p>Tell us what jobs you want, where you want to work, and what companies to avoid. Upload your resume and set your answers to common questions.</p>
                         </div>
                     </div>
-                    
+
                     <div class="card bg-base-200 shadow-xl">
                         <div class="card-body text-center">
                             <div class="text-6xl mb-4">2</div>
@@ -207,7 +234,7 @@
                             <p>Our bot logs into your LinkedIn, searches for matching jobs, and applies automatically. It answers questions, uploads tailored resumes, and tracks everything.</p>
                         </div>
                     </div>
-                    
+
                     <div class="card bg-base-200 shadow-xl">
                         <div class="card-body text-center">
                             <div class="text-6xl mb-4">3</div>
@@ -227,7 +254,7 @@
                 <h2 class="text-4xl md:text-5xl font-bold mb-16">
                     Real People, Real <span class="text-success">Results</span>
                 </h2>
-                
+
                 <div class="grid md:grid-cols-2 gap-8">
                     <div class="card bg-base-100 shadow-xl">
                         <div class="card-body">
@@ -246,7 +273,7 @@
                             <div class="text-warning">⭐⭐⭐⭐⭐</div>
                         </div>
                     </div>
-                    
+
                     <div class="card bg-base-100 shadow-xl">
                         <div class="card-body">
                             <div class="flex items-center gap-4 mb-4">
@@ -264,7 +291,7 @@
                             <div class="text-warning">⭐⭐⭐⭐⭐</div>
                         </div>
                     </div>
-                    
+
                     <div class="card bg-base-100 shadow-xl">
                         <div class="card-body">
                             <div class="flex items-center gap-4 mb-4">
@@ -282,7 +309,7 @@
                             <div class="text-warning">⭐⭐⭐⭐⭐</div>
                         </div>
                     </div>
-                    
+
                     <div class="card bg-base-100 shadow-xl">
                         <div class="card-body">
                             <div class="flex items-center gap-4 mb-4">
@@ -315,16 +342,16 @@
                 <p class="text-xl mb-8 opacity-90">
                     Join thousands of people who've escaped the manual application hell.
                 </p>
-                
+
                 <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
-                    <button class="btn btn-neutral btn-lg px-8 text-lg">
+                    <a href="/dashboard" class="btn btn-neutral btn-lg px-8 text-lg" wire:navigate>
                         🚀 Start Your Bot Now
-                    </button>
+                    </a>
                     <button class="btn btn-outline btn-lg px-8 text-white border-white hover:bg-white hover:text-primary">
                         📞 Book Demo Call
                     </button>
                 </div>
-                
+
                 <div class="text-sm opacity-80">
                     ✓ No long-term contracts &nbsp;&nbsp; ✓ Cancel anytime &nbsp;&nbsp; ✓ 24/7 support
                 </div>
@@ -340,7 +367,7 @@
                     <h3 class="font-bold text-lg mb-4">LinkedIn Job Bot</h3>
                     <p class="text-sm opacity-70">Automate your job search. Get your life back.</p>
                 </div>
-                
+
                 <div>
                     <h4 class="font-semibold mb-4">Product</h4>
                     <ul class="space-y-2 text-sm opacity-70">
@@ -349,7 +376,7 @@
                         <li><a href="#" class="hover:text-primary">How it Works</a></li>
                     </ul>
                 </div>
-                
+
                 <div>
                     <h4 class="font-semibold mb-4">Support</h4>
                     <ul class="space-y-2 text-sm opacity-70">
@@ -358,7 +385,7 @@
                         <li><a href="#" class="hover:text-primary">Status</a></li>
                     </ul>
                 </div>
-                
+
                 <div>
                     <h4 class="font-semibold mb-4">Legal</h4>
                     <ul class="space-y-2 text-sm opacity-70">
@@ -368,11 +395,11 @@
                     </ul>
                 </div>
             </div>
-            
+
             <div class="divider"></div>
-            
+
             <div class="text-center text-sm opacity-70">
-                <p>&copy; 2024 LinkedIn Job Bot. Built for the burnt-out job seeker.</p>
+                <p>&copy; 2025 Quest-Bot. Built for the burnt-out job seeker.</p>
             </div>
         </div>
     </footer>
