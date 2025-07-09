@@ -364,7 +364,7 @@
         <div class="container mx-auto px-4">
             <div class="grid md:grid-cols-4 gap-8">
                 <div>
-                    <h3 class="font-bold text-lg mb-4">LinkedIn Job Bot</h3>
+                    <h3 class="font-bold text-lg mb-4">QuestBot</h3>
                     <p class="text-sm opacity-70">Automate your job search. Get your life back.</p>
                 </div>
 
@@ -399,7 +399,7 @@
             <div class="divider"></div>
 
             <div class="text-center text-sm opacity-70">
-                <p>&copy; 2025 Quest-Bot. Built for the burnt-out job seeker.</p>
+                <p>&copy; 2025 QuestBot. Built for the burnt-out job seeker.</p>
             </div>
         </div>
     </footer>
