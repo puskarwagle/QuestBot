@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Livewire;
-
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use App\Models\SecretInfo;
@@ -11,15 +9,15 @@ class SecretInfoCunt extends Component
 {
     public $linkedin_username = '';
     public $linkedin_password = '';
-    public $use_AI = false;
-    public $ai_provider = '';
-    public $deepseek_api_url = '';
-    public $deepseek_api_key = '';
-    public $deepseek_model = '';
-    public $llm_api_url = '';
-    public $llm_api_key = '';
-    public $llm_model = '';
-    public $llm_spec = '';
+    public $use_AI = true;
+    public $ai_provider = 'deepseek';
+    public $deepseek_api_url = 'https://api.deepseek.com';
+    public $deepseek_api_key = 'YOUR_OPENAI_API_KEY';
+    public $deepseek_model = 'deepseek-chat';
+    public $llm_api_url = 'https://api.openai.com/v1/';
+    public $llm_api_key = 'YOUR_OPENAI_API_KEY';
+    public $llm_model = 'gpt-3.5-turbo';
+    public $llm_spec = 'openai';
     public $stream_output = false;
 
     protected $rules = [
@@ -41,24 +39,28 @@ class SecretInfoCunt extends Component
     {
         $secretInfo = SecretInfo::where('user_id', Auth::id())->first();
         if ($secretInfo) {
-            $this->fill($secretInfo->toArray());
+            // Only fill non-null/non-empty values to preserve defaults
+            $data = array_filter($secretInfo->toArray(), function($value, $key) {
+                // Skip user_id and preserve defaults for empty values
+                return $key !== 'user_id' && !is_null($value) && $value !== '';
+            }, ARRAY_FILTER_USE_BOTH);
+            
+            $this->fill($data);
         }
     }
 
-public function save()
-{
-    $validatedData = $this->validate();
-    $validatedData['user_id'] = Auth::id();
-
-    SecretInfo::updateOrCreate(
-        ['user_id' => Auth::id()],
-        $validatedData
-    );
-
-    $this->sendToServer($validatedData);
-
-    session()->flash('success', 'Secret Info saved');
-}
+    // Rest of your methods stay the same...
+    public function save()
+    {
+        $validatedData = $this->validate();
+        $validatedData['user_id'] = Auth::id();
+        SecretInfo::updateOrCreate(
+            ['user_id' => Auth::id()],
+            $validatedData
+        );
+        $this->sendToServer($validatedData);
+        session()->flash('success', 'Secret Info saved');
+    }
 
     private function sendToServer($data)
     {
@@ -75,7 +77,6 @@ public function save()
 
         try {
             $response = Http::timeout(10)->post('http://localhost:8001/api/update-secrets', $payload);
-
             if ($response->successful()) {
                 session()->flash('server_success', '✅ Server updated successfully!');
             } else {
