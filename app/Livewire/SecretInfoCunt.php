@@ -60,22 +60,32 @@ public function save()
     session()->flash('success', 'Secret Info saved');
 }
 
-private function sendToServer($data)
-{
-    try {
-        $response = Http::timeout(10)->post('http://localhost:8001/api/update-secrets', $data);
-
-        if ($response->successful()) {
-            session()->flash('server_success', '✅ Server updated successfully!');
-        } else {
-            $errorMsg = $response->json('detail') ?? 'Unknown server error';
-            session()->flash('server_error', '❌ Server error: ' . $errorMsg);
+    private function sendToServer($data)
+    {
+        // Map linkedin_username -> username, linkedin_password -> password
+        $payload = $data;
+        if (isset($payload['linkedin_username'])) {
+            $payload['username'] = $payload['linkedin_username'];
+            unset($payload['linkedin_username']);
         }
-    } catch (\Exception $e) {
-        session()->flash('server_error', '❌ Network error: ' . $e->getMessage());
-    }
-}
+        if (isset($payload['linkedin_password'])) {
+            $payload['password'] = $payload['linkedin_password'];
+            unset($payload['linkedin_password']);
+        }
 
+        try {
+            $response = Http::timeout(10)->post('http://localhost:8001/api/update-secrets', $payload);
+
+            if ($response->successful()) {
+                session()->flash('server_success', '✅ Server updated successfully!');
+            } else {
+                $errorMsg = $response->json('detail') ?? 'Unknown server error';
+                session()->flash('server_error', '❌ Server error: ' . $errorMsg);
+            }
+        } catch (\Exception $e) {
+            session()->flash('server_error', '❌ Network error: ' . $e->getMessage());
+        }
+    }
 
     public function secretInfoExists()
     {

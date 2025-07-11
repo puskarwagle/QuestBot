@@ -259,9 +259,9 @@
                     <div class="card bg-base-100 shadow-xl">
                         <div class="card-body">
                             <div class="flex items-center gap-4 mb-4">
-                                <div class="avatar">
-                                    <div class="w-12 h-12 rounded-full bg-primary text-primary-content flex items-center justify-center font-bold">
-                                        S
+                                <div class="avatar avatar-placeholder">
+                                    <div class="bg-primary text-neutral-content w-12 rounded-full">
+                                        <span class="text-2xl">S</span>
                                     </div>
                                 </div>
                                 <div>
@@ -277,9 +277,9 @@
                     <div class="card bg-base-100 shadow-xl">
                         <div class="card-body">
                             <div class="flex items-center gap-4 mb-4">
-                                <div class="avatar">
-                                    <div class="w-12 h-12 rounded-full bg-secondary text-secondary-content flex items-center justify-center font-bold">
-                                        M
+                                <div class="avatar avatar-placeholder">
+                                    <div class="bg-secondary text-neutral-content w-12 rounded-full">
+                                        <span class="text-2xl">M</span>
                                     </div>
                                 </div>
                                 <div>
@@ -295,9 +295,9 @@
                     <div class="card bg-base-100 shadow-xl">
                         <div class="card-body">
                             <div class="flex items-center gap-4 mb-4">
-                                <div class="avatar">
-                                    <div class="w-12 h-12 rounded-full bg-accent text-accent-content flex items-center justify-center font-bold">
-                                        J
+                                <div class="avatar avatar-placeholder">
+                                    <div class="bg-accent text-neutral-content w-12 rounded-full">
+                                        <span class="text-2xl">J</span>
                                     </div>
                                 </div>
                                 <div>
@@ -313,9 +313,9 @@
                     <div class="card bg-base-100 shadow-xl">
                         <div class="card-body">
                             <div class="flex items-center gap-4 mb-4">
-                                <div class="avatar">
-                                    <div class="w-12 h-12 rounded-full bg-error text-error-content flex items-center justify-center font-bold">
-                                        A
+                                <div class="avatar avatar-placeholder">
+                                    <div class="bg-neutral text-neutral-content w-12 rounded-full">
+                                        <span class="text-2xl">A</span>
                                     </div>
                                 </div>
                                 <div>

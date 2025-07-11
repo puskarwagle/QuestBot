@@ -29,7 +29,7 @@ class SearchInfoCunt extends Component
     public $bad_words = [];
     public $security_clearance = false;
     public $did_masters = false;
-    public $current_experience = '';
+    public $current_experience = null;
     public $pause_after_filters = false;
 
     protected $rules = [
@@ -53,8 +53,19 @@ class SearchInfoCunt extends Component
         'bad_words' => 'nullable|array',
         'security_clearance' => 'boolean',
         'did_masters' => 'boolean',
-        'current_experience' => 'nullable|string',
+        'current_experience' => 'nullable|integer',
         'pause_after_filters' => 'boolean',
+    ];
+
+    private array $commaFields = [
+        'search_terms',
+        'experience_level',
+        'job_type',
+        'on_site',
+        'companies',
+        'about_company_bad_words',
+        'about_company_good_words',
+        'bad_words',
     ];
 
     public function mount()
@@ -65,38 +76,56 @@ class SearchInfoCunt extends Component
         }
     }
 
-public function save()
-{
-    $validatedData = $this->validate();
-    $validatedData['user_id'] = Auth::id();
-
-    SearchInfo::updateOrCreate(
-        ['user_id' => Auth::id()],
-        $validatedData
-    );
-
-    // Send to external server
-    $this->sendToServer($validatedData);
-
-    session()->flash('success', 'Search Info saved');
-}
-
-private function sendToServer($data)
-{
-    try {
-        $response = Http::timeout(10)->post('http://localhost:8001/api/update-search', $data);
-
-        if ($response->successful()) {
-            session()->flash('server_success', '✅ Server updated successfully!');
-        } else {
-            $errorMsg = $response->json('detail') ?? 'Unknown server error';
-            session()->flash('server_error', '❌ Server error: ' . $errorMsg);
+    private function parseCommaSeparatedFields(array $data, array $fields): array
+    {
+        foreach ($fields as $field) {
+            if (isset($data[$field]) && is_string($data[$field])) {
+                $data[$field] = array_filter(array_map('trim', explode(',', $data[$field])));
+            }
         }
-    } catch (\Exception $e) {
-        session()->flash('server_error', '❌ Network error: ' . $e->getMessage());
+        return $data;
     }
-}
 
+    public function save()
+    {
+        $input = $this->all(); // get all public properties
+
+        // Convert comma strings to arrays BEFORE validation
+        $input = $this->parseCommaSeparatedFields($input, $this->commaFields);
+
+        // Replace Livewire properties so validation doesn't complain
+        foreach ($input as $key => $val) {
+            $this->$key = $val;
+        }
+
+        $validatedData = $this->validate();
+        $validatedData['user_id'] = Auth::id();
+
+        SearchInfo::updateOrCreate(
+            ['user_id' => Auth::id()],
+            $validatedData
+        );
+
+        $this->sendToServer($validatedData);
+
+        session()->flash('success', 'Search Info saved');
+    }
+
+    private function sendToServer($data)
+    {
+        try {
+            $response = Http::timeout(10)->post('http://localhost:8001/api/update-search', $data);
+
+            if ($response->successful()) {
+                session()->flash('server_success', '✅ Server updated successfully!');
+            } else {
+                $errorMsg = $response->json('detail') ?? 'Unknown server error';
+                session()->flash('server_error', '❌ Server error: ' . $errorMsg);
+            }
+        } catch (\Exception $e) {
+            session()->flash('server_error', '❌ Network error: ' . $e->getMessage());
+        }
+    }
 
     public function searchInfoExists()
     {

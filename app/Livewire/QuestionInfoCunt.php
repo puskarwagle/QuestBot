@@ -10,14 +10,14 @@ use Illuminate\Support\Facades\Http;
 class QuestionInfoCunt extends Component
 {
     public $default_resume_path = '';
-    public $years_of_experience = '';
+    public $years_of_experience = null;
     public $require_visa = '';
     public $website = '';
     public $linkedIn = '';
     public $us_citizenship = '';
     public $desired_salary = '';
     public $current_ctc = '';
-    public $notice_period = '';
+    public $notice_period = null;
     public $linkedin_headline = '';
     public $linkedin_summary = '';
     public $cover_letter = '';
@@ -30,14 +30,14 @@ class QuestionInfoCunt extends Component
 
     protected $rules = [
         'default_resume_path' => 'nullable|string',
-        'years_of_experience' => 'nullable|string',
+        'years_of_experience' => 'nullable|integer',
         'require_visa' => 'nullable|string',
         'website' => 'nullable|string',
         'linkedIn' => 'nullable|string',
         'us_citizenship' => 'nullable|string',
         'desired_salary' => 'nullable|string',
         'current_ctc' => 'nullable|string',
-        'notice_period' => 'nullable|string',
+        'notice_period' => 'nullable|integer',
         'linkedin_headline' => 'nullable|string',
         'linkedin_summary' => 'nullable|string',
         'cover_letter' => 'nullable|string',

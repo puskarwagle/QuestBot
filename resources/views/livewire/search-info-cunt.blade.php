@@ -156,7 +156,7 @@
             </div>
 
             <!-- Word Filters -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-1 gap-4">
                 <div class="form-control">
                     <label class="label">
                         <span class="label-text font-medium">About Company Bad Words (comma-separated)</span>
@@ -196,8 +196,8 @@
             <div class="divider"></div>
             <div class="space-y-4">
                 <h3 class="text-lg font-semibold text-base-content">Filter Options</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="space-y-2">
+                <div class="grid grid-cols-1 md:grid-cols-1 gap-4">
+                    <div class="space-y-2 flex justify-evenly">
                         <label class="label cursor-pointer">
                             <input type="checkbox" wire:model="randomize_search_order" class="checkbox checkbox-primary">
                             <span class="label-text">Randomize search order</span>
@@ -215,7 +215,7 @@
                             <span class="label-text">In your network</span>
                         </label>
                     </div>
-                    <div class="space-y-2">
+                    <div class="space-y-2 flex justify-evenly">
                         <label class="label cursor-pointer">
                             <input type="checkbox" wire:model="fair_chance_employer" class="checkbox checkbox-primary">
                             <span class="label-text">Fair chance employer</span>
