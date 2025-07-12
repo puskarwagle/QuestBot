@@ -18,7 +18,6 @@
         <div>
             <h2 class="text-xl font-semibold text-primary mb-2">Messages</h2>
             <div id="messages" class="bg-base-200 h-64 overflow-y-auto rounded-box p-4 space-y-2 text-sm font-mono border border-base-content/10">
-                <div class="text-secondary-content">Connecting to WebSocket...</div>
             </div>
         </div>
 
@@ -32,7 +31,7 @@
             <div class="flex flex-wrap gap-2">
                 <button onclick="sendQuickMessage('hello gui')" class="btn btn-info">Send "hello gui"</button>
                 <button onclick="clearMessages()" class="btn btn-warning">Clear</button>
-                <button onclick="toggleConnection()" class="btn btn-error" id="toggleBtn">Disconnect</button>
+                <button onclick="handleToggle()" class="btn btn-error" id="toggleBtn">Connect</button>
             </div>
         </div>
 
@@ -65,18 +64,17 @@
         let connectionStartTime = null;
         let connectionTimer = null;
 
-        // WebSocket connection
         function connect() {
             try {
                 ws = new WebSocket('ws://localhost:8001/ws');
 
-                ws.onopen = function(event) {
+                ws.onopen = function() {
                     console.log('Connected to WebSocket');
                     updateStatus('Connected', 'bg-green-500');
                     addMessage('system', 'Connected to FastAPI server');
                     connectionStartTime = Date.now();
                     startConnectionTimer();
-                    document.getElementById('toggleBtn').textContent = 'Disconnect';
+                    updateToggleButton();
                 };
 
                 ws.onmessage = function(event) {
@@ -91,12 +89,12 @@
                     document.getElementById('messageCount').textContent = messageCount;
                 };
 
-                ws.onclose = function(event) {
+                ws.onclose = function() {
                     console.log('WebSocket closed');
                     updateStatus('Disconnected', 'bg-red-500');
                     addMessage('system', 'Disconnected from server');
                     stopConnectionTimer();
-                    document.getElementById('toggleBtn').textContent = 'Connect';
+                    updateToggleButton();
                 };
 
                 ws.onerror = function(error) {
@@ -118,11 +116,26 @@
             }
         }
 
-        function toggleConnection() {
+        function updateToggleButton() {
+            const btn = document.getElementById('toggleBtn');
+
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                btn.textContent = 'Disconnect';
+                btn.classList.remove('btn-success');
+                btn.classList.add('btn-error');
+            } else {
+                btn.textContent = 'Connect';
+                btn.classList.remove('btn-error');
+                btn.classList.add('btn-success');
+            }
+        }
+
+        function handleToggle() {
             if (!ws || ws.readyState === WebSocket.CLOSED) {
                 connect();
             } else {
                 disconnect();
+                updateToggleButton();
             }
         }
 
@@ -131,13 +144,11 @@
             const message = input.value.trim();
 
             if (message && ws && ws.readyState === WebSocket.OPEN) {
-                const messageData = {
-                    message: message
+                ws.send(JSON.stringify({
+                    message
                     , timestamp: Date.now()
                     , type: 'user_message'
-                };
-
-                ws.send(JSON.stringify(messageData));
+                }));
                 addMessage('client', message);
                 input.value = '';
             }
@@ -145,13 +156,11 @@
 
         function sendQuickMessage(msg) {
             if (ws && ws.readyState === WebSocket.OPEN) {
-                const messageData = {
+                ws.send(JSON.stringify({
                     message: msg
                     , timestamp: Date.now()
                     , type: 'quick_message'
-                };
-
-                ws.send(JSON.stringify(messageData));
+                }));
                 addMessage('client', msg);
             }
         }
@@ -185,7 +194,6 @@
             const messageElement = document.createElement('div');
             messageElement.className = `mb-1 ${senderClass}`;
             messageElement.innerHTML = `<span class="text-pink-500">[${timestamp}]</span> <span class="font-semibold">${prefix}</span> ${message}`;
-
             messagesDiv.appendChild(messageElement);
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
         }
@@ -198,8 +206,7 @@
 
         function updateStatus(text, indicatorClass) {
             document.getElementById('status-text').textContent = text;
-            const indicator = document.getElementById('status-indicator');
-            indicator.className = `w-3 h-3 rounded-full ${indicatorClass}`;
+            document.getElementById('status-indicator').className = `w-3 h-3 rounded-full ${indicatorClass}`;
         }
 
         function startConnectionTimer() {
@@ -226,9 +233,7 @@
 
         // Cleanup on page unload
         window.onbeforeunload = function() {
-            if (ws) {
-                ws.close();
-            }
+            if (ws) ws.close();
         };
 
     </script>
